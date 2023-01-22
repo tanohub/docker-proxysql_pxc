@@ -1,0 +1,53 @@
+version: "3.5"
+services:
+#  proxysql:
+#    container_name: ${COMPOSE_PROJECT_NAME}_proxysql
+#    image: percona/proxysql2
+#    volumes:
+#    - "./data/proxysql/etc/proxysql.cnf:/etc/proxysql.cnf"
+#    - "./data/proxysql/etc/proxysql-admin.cnf:/etc/proxysql-admin.cnf"
+#    - "./data/proxysql/lib/proxysql:/var/lib/proxysql"
+#      # force local timezone
+#      - "/etc/timezone:/etc/timezone:ro"
+#      - "/etc/localtime:/etc/localtime:ro"
+#    ports:
+#      - "6033:6033"
+#      - "6032:6032"
+#      - "6080:6080"
+
+  db01:
+    container_name: ${COMPOSE_PROJECT_NAME}_db01
+    image: percona/percona-xtradb-cluster:5.7
+    environment:
+      MYSQL_ROOT_PASSWORD: Password123
+      CLUSTER_NAME: cluster01
+    command: --default-authentication-plugin=mysql_native_password
+    ports:
+      - '3306:3306'
+    volumes:
+      # mysql init DB and users
+      - ./provision/mysql/init:/docker-entrypoint-initdb.d
+      # force local timezone
+      - "/etc/timezone:/etc/timezone:ro"
+      - "/etc/localtime:/etc/localtime:ro"
+    healthcheck:
+        test: "mysql -uroot -pPassword123 -e 'show databases'"
+
+  db02:
+    container_name: ${COMPOSE_PROJECT_NAME}_db02
+    image: percona/percona-xtradb-cluster:5.7
+    environment:
+      MYSQL_ROOT_PASSWORD: Password123
+      CLUSTER_JOIN: db01
+    command: --default-authentication-plugin=mysql_native_password
+    ports:
+      - '3307:3306'
+    volumes:
+      # mysql init DB and users
+      - ./provision/mysql/init:/docker-entrypoint-initdb.d
+      # force local timezone
+      - "/etc/timezone:/etc/timezone:ro"
+      - "/etc/localtime:/etc/localtime:ro"
+    depends_on:
+      db01:
+          condition: service_healthy
