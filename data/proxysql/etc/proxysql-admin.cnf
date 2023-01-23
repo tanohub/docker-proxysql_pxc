@@ -6,13 +6,13 @@ export PROXYSQL_HOSTNAME='localhost'
 export PROXYSQL_PORT='6032'
 
 # PXC admin credentials for connecting to pxc-cluster-node.
-export CLUSTER_USERNAME='admin'
-export CLUSTER_PASSWORD='admin'
+export CLUSTER_USERNAME='root'
+export CLUSTER_PASSWORD='Password123'
 export CLUSTER_PORT='3306'
 
 # proxysql monitoring user. proxysql admin script will create this user in pxc to monitor pxc-nodes.
-export MONITOR_USERNAME='monitor'
-export MONITOR_PASSWORD='monitor'
+export MONITOR_USERNAME='proxysql-monitor'
+export MONITOR_PASSWORD='Password123'
 export USE_EXISTING_MONITOR_PASSWORD=1
 
 # Application user to connect to pxc-node through proxysql
