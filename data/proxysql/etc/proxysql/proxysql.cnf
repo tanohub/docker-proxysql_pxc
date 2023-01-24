@@ -12,8 +12,6 @@ admin_variables=
 
 mysql_variables=
 {
-	monitor_password="monitor"
-	monitor_galera_healthcheck_interval=1000
 	threads=2
 	max_connections=2048
 	default_query_delay=0
@@ -31,5 +29,54 @@ mysql_variables=
 	commands_stats=true
 	sessions_sort=true
 	have_ssl=false
+	monitor_username="proxysql-monitor"
+	monitor_password="Password123"
+	monitor_galera_healthcheck_interval=2000
+	monitor_galera_healthcheck_timeout=800
 }
+
+mysql_galera_hostgroups =
+(
+    {
+        writer_hostgroup=10
+        backup_writer_hostgroup=20
+        reader_hostgroup=30
+        offline_hostgroup=9999
+        max_writers=1
+        writer_is_also_reader=1
+        max_transactions_behind=30
+        active=1
+    }
+)
+
+mysql_servers =
+(
+    { address="db01" , port=3306 , hostgroup=10, max_connections=100 },
+    { address="db02" , port=3306 , hostgroup=10, max_connections=100 },
+)
+
+mysql_query_rules =
+(
+    {
+        rule_id=100
+        active=1
+        match_pattern="^SELECT .* FOR UPDATE"
+        destination_hostgroup=10
+        apply=1
+    },
+    {
+        rule_id=200
+        active=1
+        match_pattern="^SELECT .*"
+        destination_hostgroup=20
+        apply=1
+    },
+    {
+        rule_id=300
+        active=1
+        match_pattern=".*"
+        destination_hostgroup=10
+        apply=1
+    }
+)
 
