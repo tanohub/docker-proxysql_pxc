@@ -19,10 +19,10 @@ export USE_EXISTING_MONITOR_PASSWORD=1
 export WITH_CLUSTER_APP_USER=0
 
 # ProxySQL hostgroup IDs
-export READER_HOSTGROUP_ID='10'
-export WRITER_HOSTGROUP_ID='11'
-export BACKUP_WRITER_HOSTGROUP_ID='12'
-export OFFLINE_HOSTGROUP_ID='13'
+export READER_HOSTGROUP_ID='30'
+export WRITER_HOSTGROUP_ID='10'
+export BACKUP_WRITER_HOSTGROUP_ID='20'
+export OFFLINE_HOSTGROUP_ID='9999'
 
 # ProxySQL read/write configuration mode.
 export MODE="singlewrite"

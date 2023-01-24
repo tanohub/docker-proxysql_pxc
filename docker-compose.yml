@@ -54,3 +54,17 @@ services:
     depends_on:
       db01:
           condition: service_healthy
+
+  adminer:
+    image: adminer:latest
+    container_name: ${COMPOSE_PROJECT_NAME}_adminer
+    environment:
+      ADMINER_DEFAULT_SERVER: proxysql
+    ports:
+      - '8081:8080'
+    volumes:
+      # force local timezone      
+      - "/etc/timezone:/etc/timezone:ro"
+      - "/etc/localtime:/etc/localtime:ro"
+    depends_on:
+      - "proxysql"
