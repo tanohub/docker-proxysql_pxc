@@ -2,13 +2,23 @@ datadir="/var/lib/proxysql"
 
 admin_variables=
 {
-    admin_credentials="admin:admin;radmin:radmin"
+    admin_credentials="admin:admin;radmin:radmin;clusteruser:Password123"
     mysql_ifaces="0.0.0.0:6032"
     refresh_interval=2000
     web_enabled=true
     web_port=6080
     stats_credentials="stats:admin"
+    cluster_username="clusteruser"
+    cluster_password="Password123"
+    cluster_check_interval_ms=10
+    cluster_check_status_frequency=100
 }
+
+proxysql_servers =
+(
+  { hostname="proxysql01" , port=6032 , weight=0 , comment="proxysql01" },
+  { hostname="proxysql02" , port=6032 , weight=0 , comment="proxysql02" }
+)
 
 mysql_variables=
 {
