@@ -43,6 +43,7 @@ mysql_variables=
 	monitor_password="Password123"
 	monitor_galera_healthcheck_interval=2000
 	monitor_galera_healthcheck_timeout=800
+	set_query_lock_on_hostgroup=0
 }
 
 mysql_galera_hostgroups =
